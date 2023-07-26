@@ -106,10 +106,14 @@ class _RegisterState extends State<Register> {
                                   email: emailController.text.trim(),
                                   password: passwordController.text.trim())
                               .then((value) {
-                            setState(() {});
+                            String uid = FirebaseAuth.instance.currentUser!.uid;
+                            print('User signed in with UID: $uid');
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Order()),
+                              MaterialPageRoute(
+                                  builder: (context) => Order(
+                                        id: uid,
+                                      )),
                             );
                           }).onError((error, stackTrace) {
                             setState(() {

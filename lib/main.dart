@@ -11,6 +11,7 @@ void main() async {
   );
 
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: Signin(),
   ));
 }
@@ -121,10 +122,16 @@ class _SigninState extends State<Signin> {
                                     email: emailController.text.trim(),
                                     password: passwordController.text.trim())
                                 .then((value) {
+                              // Once the user is signed in, you can get the UID from the User object
+                              String uid =
+                                  FirebaseAuth.instance.currentUser!.uid;
+                              print('User signed in with UID: $uid');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Order(),
+                                  builder: (context) => Order(
+                                    id: uid,
+                                  ),
                                 ),
                               );
                             }).onError((error, stackTrace) {

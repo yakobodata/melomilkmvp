@@ -4,9 +4,10 @@ import 'package:melo_milk/status.dart';
 import 'package:intl/intl.dart';
 
 class Confirm extends StatefulWidget {
+  String userid;
   String litres;
 
-  Confirm({super.key, required this.litres});
+  Confirm({super.key, required this.litres, required this.userid});
 
   @override
   State<Confirm> createState() => _ConfirmState();
@@ -36,7 +37,7 @@ class _ConfirmState extends State<Confirm> {
           Stack(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
+                // padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
                 child: Text(
                   "Confirm",
                   style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
@@ -169,6 +170,9 @@ class _ConfirmState extends State<Confirm> {
               ],
             ),
           ),
+          SizedBox(
+            height: 50,
+          ),
           Container(
             height: 40,
             child: Material(
@@ -181,6 +185,8 @@ class _ConfirmState extends State<Confirm> {
                     dynamic db = FirebaseFirestore.instance;
                     // Create a new user with a first and last name
                     final deal = <String, dynamic>{
+                      "userid": this.widget.userid,
+                      "date": {getCurrentDate()},
                       "litres": this.widget.litres,
                       "unitprice": unit_price,
                       "transport": transport,
