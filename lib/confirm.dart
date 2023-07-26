@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:melo_milk/status.dart';
+import 'package:intl/intl.dart';
 
 class Confirm extends StatefulWidget {
   String litres;
@@ -42,6 +43,31 @@ class _ConfirmState extends State<Confirm> {
                 ),
               )
             ],
+          ),
+          SizedBox(
+            height: 50,
+          ),
+          Container(
+            padding: EdgeInsets.all(6),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  'Date',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  '${getCurrentDate()}',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
           SizedBox(
             height: 50,
@@ -185,5 +211,12 @@ class _ConfirmState extends State<Confirm> {
         ],
       ),
     );
+  }
+
+  String getCurrentDate() {
+    var now = DateTime.now();
+    var formatter =
+        DateFormat('yyyy-MM-dd'); // You can choose the desired date format here
+    return formatter.format(now);
   }
 }
