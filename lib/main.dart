@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
 import 'register.dart';
 import 'order.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() => runApp(MaterialApp(
-  home: Signin(),
-));
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-class Signin extends StatelessWidget {
-  int _success = 1;
-  String _userEmail = "";
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: Signin(),
+  ));
+}
+
+class Signin extends StatefulWidget {
+  @override
+  State<Signin> createState() => _SigninState();
+}
+
+class _SigninState extends State<Signin> {
+  final emailController = TextEditingController();
+
+  final passwordController = TextEditingController();
+
+  String err = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +45,7 @@ class Signin extends StatelessWidget {
                     child: Text(
                       "Welcome",
                       style:
-                      TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                     ),
                   )
                 ],
@@ -41,6 +60,7 @@ class Signin extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   TextField(
+                    controller: emailController,
                     decoration: InputDecoration(
                         labelText: 'EMAIL',
                         labelStyle: TextStyle(
@@ -52,6 +72,7 @@ class Signin extends StatelessWidget {
                     height: 20,
                   ),
                   TextField(
+                    controller: passwordController,
                     decoration: InputDecoration(
                         labelText: 'PASSWORD',
                         labelStyle: TextStyle(
@@ -65,6 +86,10 @@ class Signin extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 5.0,
+                  ),
+                  Text(
+                    err,
+                    style: const TextStyle(color: Colors.red),
                   ),
                   Container(
                     alignment: Alignment(1, 0),
@@ -80,17 +105,6 @@ class Signin extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        _success == 1
-                            ? ''
-                            : (_success == 2
-                            ? 'Successfully signed in ' + _userEmail
-                            : 'Sign in failed'),
-                        style: TextStyle(color: Colors.red),
-                      )),
                   SizedBox(
                     height: 40,
                   ),
@@ -103,11 +117,30 @@ class Signin extends StatelessWidget {
                       elevation: 7,
                       child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Order()),
-                            );
+                            FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: emailController.text.trim(),
+                                    password: passwordController.text.trim())
+                                .then((value) {
+                              // Once the user is signed in, you can get the UID from the User object
+                              String uid =
+                                  FirebaseAuth.instance.currentUser!.uid;
+                              print('User signed in with UID: $uid');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Order(
+                                    id: uid,
+                                  ),
+                                ),
+                              );
+                            }).onError((error, stackTrace) {
+                              setState(() {
+                                err = error.toString();
+                                int index = err.indexOf("]");
+                                err = err.substring(index + 1);
+                              });
+                            });
                           },
                           child: Center(
                             child: Text(

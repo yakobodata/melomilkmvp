@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:melo_milk/confirm.dart';
+import 'package:flutter/services.dart';
 
 class Order extends StatefulWidget {
-  const Order({super.key});
+  String id;
+
+  Order({super.key, required this.id});
+
   _OrderState createState() => _OrderState();
 }
 
 class _OrderState extends State<Order> {
+  final orderController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +34,7 @@ class _OrderState extends State<Order> {
                     child: Text(
                       "Order",
                       style:
-                      TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                     ),
                   )
                 ],
@@ -36,6 +42,9 @@ class _OrderState extends State<Order> {
             ),
             Container(
               child: TextField(
+                controller: orderController,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     labelText: 'Litres',
                     labelStyle: TextStyle(
@@ -56,9 +65,14 @@ class _OrderState extends State<Order> {
                 elevation: 7,
                 child: GestureDetector(
                     onTap: () {
+                      String litres = orderController.text.trim();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Confirm()),
+                        MaterialPageRoute(
+                            builder: (context) => Confirm(
+                                  litres: litres,
+                                  userid: this.widget.id,
+                                )),
                       );
                     },
                     child: Center(

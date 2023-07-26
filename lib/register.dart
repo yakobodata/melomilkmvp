@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'order.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -6,8 +9,10 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  int _success = 1;
-  String _userEmail = "";
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  String err = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +35,16 @@ class _RegisterState extends State<Register> {
               ],
             ),
           ),
-          Container(padding: EdgeInsets.only(top: 35, left: 20,right: 30,),
+          Container(
+            padding: EdgeInsets.only(
+              top: 35,
+              left: 20,
+              right: 30,
+            ),
             child: Column(
               children: <Widget>[
                 TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
                       labelText: 'EMAIL',
                       labelStyle: TextStyle(
@@ -45,6 +56,7 @@ class _RegisterState extends State<Register> {
                   height: 20,
                 ),
                 TextField(
+                  controller: passwordController,
                   decoration: InputDecoration(
                       labelText: 'PASSWORD',
                       labelStyle: TextStyle(
@@ -73,19 +85,12 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                 ),
-                Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      _success == 1
-                          ? ''
-                          : (_success == 2
-                          ? 'Successfully signed in ' + _userEmail
-                          : 'Sign in failed'),
-                      style: TextStyle(color: Colors.red),
-                    )),
                 SizedBox(
                   height: 40,
+                ),
+                Text(
+                  err,
+                  style: const TextStyle(color: Colors.red),
                 ),
                 Container(
                   height: 40,
@@ -95,6 +100,30 @@ class _RegisterState extends State<Register> {
                     color: Colors.black,
                     elevation: 7,
                     child: GestureDetector(
+                        onTap: () {
+                          FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim())
+                              .then((value) {
+                            String uid = FirebaseAuth.instance.currentUser!.uid;
+                            print('User signed in with UID: $uid');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Order(
+                                        id: uid,
+                                      )),
+                            );
+                          }).onError((error, stackTrace) {
+                            setState(() {
+                              err = error.toString();
+                              // int index = err.indexOf("]");
+                              // err = err.substring(index + 1);
+                            });
+                          });
+                          setState(() {});
+                        },
                         child: Center(
                           child: Text(
                             'REGISTER',
@@ -126,7 +155,7 @@ class _RegisterState extends State<Register> {
                       ),
                     )
                   ],
-                )
+                ),
               ],
             ),
           )
