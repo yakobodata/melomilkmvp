@@ -6,14 +6,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: Signin(),
   ));
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+
 }
 
 class Signin extends StatefulWidget {
@@ -106,7 +109,7 @@ class _SigninState extends State<Signin> {
                     ),
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 20,
                   ),
                   Container(
                     height: 40,
@@ -154,7 +157,7 @@ class _SigninState extends State<Signin> {
                     ),
                   ),
                   SizedBox(
-                    height: 15,
+                    height: 30,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
