@@ -11,6 +11,7 @@ class Order extends StatefulWidget {
 }
 
 class _OrderState extends State<Order> {
+  final phoneNumberController = TextEditingController();
   final orderController = TextEditingController();
 
   @override
@@ -39,6 +40,22 @@ class _OrderState extends State<Order> {
                   )
                 ],
               ),
+            ),
+            Container(
+              child: TextField(
+                controller: phoneNumberController,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    labelText: 'Phone Number',
+                    labelStyle: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey)),
+              ),
+            ),
+            SizedBox(
+              height: 20,
             ),
             Container(
               child: TextField(
@@ -72,6 +89,8 @@ class _OrderState extends State<Order> {
                             builder: (context) => Confirm(
                                   litres: litres,
                                   userid: this.widget.id,
+                                  contact_number:
+                                      phoneNumberController.text.trim(),
                                 )),
                       );
                     },
