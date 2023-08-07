@@ -2,12 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:melo_milk/status.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Confirm extends StatefulWidget {
   String userid;
   String litres;
+  String contact_number;
 
-  Confirm({super.key, required this.litres, required this.userid});
+  Confirm(
+      {super.key,
+      required this.litres,
+      required this.userid,
+      required this.contact_number});
 
   @override
   State<Confirm> createState() => _ConfirmState();
@@ -16,6 +22,7 @@ class Confirm extends StatefulWidget {
 class _ConfirmState extends State<Confirm> {
   String transport = '1500';
   String unit_price = '2000';
+
   int total = 0;
 
   @override
@@ -190,6 +197,7 @@ class _ConfirmState extends State<Confirm> {
                       "litres": this.widget.litres,
                       "unitprice": unit_price,
                       "transport": transport,
+                      "phone_number": this.widget.contact_number,
                       "amount": total
                     };
 
