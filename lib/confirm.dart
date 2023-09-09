@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:melo_milk/status.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Confirm extends StatefulWidget {
   String userid;
@@ -22,6 +24,8 @@ class Confirm extends StatefulWidget {
 class _ConfirmState extends State<Confirm> {
   String transport = '1500';
   String unit_price = '2000';
+  String url = "https://api.emailjs.com/api/v1.0/email/send";
+  final user = FirebaseAuth.instance.currentUser;
 
   int total = 0;
 
@@ -30,6 +34,25 @@ class _ConfirmState extends State<Confirm> {
     super.initState();
     total = int.parse(this.widget.litres) * int.parse(unit_price) +
         int.parse(transport);
+  }
+
+  Future sendEmail(String name, String email, String body) async {
+    final request = await http.post(
+        headers: {"Content-Type": "application/json"},
+        Uri.parse(url),
+        body: json.encode({
+          "service_id": "service_0kp13ag",
+          "template_id": "template_50m3nrp",
+          "user_id": "NvhaWAjZgfsEFCoMA",
+          "template_params": {
+            "from_name": name,
+            "user_email": email,
+            "to_name": "jacob",
+            "message": body
+          }
+        }));
+
+    print(request);
   }
 
   @override
@@ -200,6 +223,19 @@ class _ConfirmState extends State<Confirm> {
                       "phone_number": this.widget.contact_number,
                       "amount": total
                     };
+
+                    String body = "Number Of Litres - " +
+                        this.widget.litres +
+                        "\n Date - " +
+                        getCurrentDate() +
+                        "\n Amount - " +
+                        total.toString() +
+                        "\n Phone - " +
+                        this.widget.contact_number;
+
+                    String email = user?.email.toString() ?? " ";
+
+                    sendEmail("rashid", email, body);
 
                     // Add a new document with a generated ID
                     db.collection("deals").add(deal).then(
