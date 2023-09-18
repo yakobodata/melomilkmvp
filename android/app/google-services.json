@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "235440508412",
+    "project_id": "melo-milk",
+    "storage_bucket": "melo-milk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235440508412:android:e716db912482bbe9b73679",
+        "android_client_info": {
+          "package_name": "com.example.melomilkmvp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzc74U2xuL9nyHnuhHxseJ1yyVuF_0360"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
