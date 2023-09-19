@@ -38,153 +38,155 @@ class _SigninState extends State<Signin> {
           title: Text('Melo Milk'),
           centerTitle: true,
         ),
-        body: Column(
-          children: <Widget>[
-            Container(
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
-                    child: Text(
-                      "Welcome",
-                      style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(
-                top: 35,
-                left: 20,
-                right: 30,
-              ),
-              child: Column(
-                children: <Widget>[
-                  TextField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                        labelText: 'EMAIL',
-                        labelStyle: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey)),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextField(
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                        labelText: 'PASSWORD',
-                        labelStyle: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
-                        )),
-                    obscureText: true,
-                  ),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Text(
-                    err,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                  Container(
-                    alignment: Alignment(1, 0),
-                    padding: EdgeInsets.only(top: 15, left: 20),
-                    child: InkWell(
+        body:SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
                       child: Text(
-                        'Forgot Password',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Montserrat',
-                            decoration: TextDecoration.underline),
+                        "Welcome",
+                        style:
+                            TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: 40,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(20),
-                      shadowColor: Colors.greenAccent,
-                      color: Colors.black,
-                      elevation: 7,
-                      child: GestureDetector(
-                          onTap: () {
-                            FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                                    email: emailController.text.trim(),
-                                    password: passwordController.text.trim())
-                                .then((value) {
-                              // Once the user is signed in, you can get the UID from the User object
-                              String uid =
-                                  FirebaseAuth.instance.currentUser!.uid;
-                              print('User signed in with UID: $uid');
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Order(
-                                    id: uid,
-                                  ),
-                                ),
-                              );
-                            }).onError((error, stackTrace) {
-                              setState(() {
-                                err = error.toString();
-                                int index = err.indexOf("]");
-                                err = err.substring(index + 1);
-                              });
-                            });
-                          },
-                          child: Center(
-                            child: Text(
-                              'LOGIN',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat'),
-                            ),
-                          )),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Register()),
-                          );
-                        },
-                        child: Text(
-                          'Register',
-                          style: TextStyle(
-                              color: Colors.blueGrey,
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(
+                  top: 35,
+                  left: 20,
+                  right: 30,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                          labelText: 'EMAIL',
+                          labelStyle: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.bold,
+                              color: Colors.grey)),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                          labelText: 'PASSWORD',
+                          labelStyle: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green),
+                          )),
+                      obscureText: true,
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Text(
+                      err,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                    Container(
+                      alignment: Alignment(1, 0),
+                      padding: EdgeInsets.only(top: 15, left: 20),
+                      child: InkWell(
+                        child: Text(
+                          'Forgot Password',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Montserrat',
                               decoration: TextDecoration.underline),
                         ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            )
-          ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      height: 40,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(20),
+                        shadowColor: Colors.greenAccent,
+                        color: Colors.black,
+                        elevation: 7,
+                        child: GestureDetector(
+                            onTap: () {
+                              FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                      email: emailController.text.trim(),
+                                      password: passwordController.text.trim())
+                                  .then((value) {
+                                // Once the user is signed in, you can get the UID from the User object
+                                String uid =
+                                    FirebaseAuth.instance.currentUser!.uid;
+                                print('User signed in with UID: $uid');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Order(
+                                      id: uid,
+                                    ),
+                                  ),
+                                );
+                              }).onError((error, stackTrace) {
+                                setState(() {
+                                  err = error.toString();
+                                  int index = err.indexOf("]");
+                                  err = err.substring(index + 1);
+                                });
+                              });
+                            },
+                            child: Center(
+                              child: Text(
+                                'LOGIN',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Montserrat'),
+                              ),
+                            )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Register()),
+                            );
+                          },
+                          child: Text(
+                            'Register',
+                            style: TextStyle(
+                                color: Colors.blueGrey,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ));
   }
 }

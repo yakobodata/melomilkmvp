@@ -41,9 +41,9 @@ class _ConfirmState extends State<Confirm> {
         headers: {"Content-Type": "application/json"},
         Uri.parse(url),
         body: json.encode({
-          "service_id": "service_0kp13ag",
-          "template_id": "template_50m3nrp",
-          "user_id": "NvhaWAjZgfsEFCoMA",
+          "service_id": "service_weyce4r",
+          "template_id": "template_6wi1qz4",
+          "user_id": "-grl_Xh6IMqw7_1Ax",
           "template_params": {
             "from_name": name,
             "user_email": email,
@@ -52,7 +52,7 @@ class _ConfirmState extends State<Confirm> {
           }
         }));
 
-    print(request);
+    print(request.statusCode);
   }
 
   @override
