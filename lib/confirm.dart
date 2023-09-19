@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:melo_milk/status.dart';
+import 'status.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
@@ -13,9 +13,9 @@ class Confirm extends StatefulWidget {
 
   Confirm(
       {super.key,
-      required this.litres,
-      required this.userid,
-      required this.contact_number});
+        required this.litres,
+        required this.userid,
+        required this.contact_number});
 
   @override
   State<Confirm> createState() => _ConfirmState();
@@ -38,7 +38,10 @@ class _ConfirmState extends State<Confirm> {
 
   Future sendEmail(String name, String email, String body) async {
     final request = await http.post(
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "origin": "http://localhost"
+        },
         Uri.parse(url),
         body: json.encode({
           "service_id": "service_weyce4r",
@@ -52,7 +55,18 @@ class _ConfirmState extends State<Confirm> {
           }
         }));
 
-    print(request.statusCode);
+    print(request);
+    final message = (request.statusCode == 200)
+        ? "Order query sent successfully"
+        : "Error when sending querry";
+    final snackdemo = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.black,
+      elevation: 10,
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.all(5),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackdemo);
   }
 
   @override
@@ -239,7 +253,7 @@ class _ConfirmState extends State<Confirm> {
 
                     // Add a new document with a generated ID
                     db.collection("deals").add(deal).then(
-                        (DocumentReference doc) =>
+                            (DocumentReference doc) =>
                             print('DocumentSnapshot added with ID: ${doc.id}'));
 
                     Navigator.push(
@@ -266,7 +280,7 @@ class _ConfirmState extends State<Confirm> {
   String getCurrentDate() {
     var now = DateTime.now();
     var formatter =
-        DateFormat('yyyy-MM-dd'); // You can choose the desired date format here
+    DateFormat('yyyy-MM-dd'); // You can choose the desired date format here
     return formatter.format(now);
   }
 }
