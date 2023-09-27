@@ -21,93 +21,99 @@ class _OrderState extends State<Order> {
         title: Text('Melo Milk'),
         centerTitle: true,
       ),
-      body: Container(
-        padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
-                    child: Text(
-                      "Order",
-                      style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              child: TextField(
-                controller: phoneNumberController,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: 'Phone Number',
-                    labelStyle: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey)),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              child: TextField(
-                controller: orderController,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: 'Litres',
-                    labelStyle: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey)),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              height: 40,
-              child: Material(
-                borderRadius: BorderRadius.circular(20),
-                shadowColor: Colors.greenAccent,
-                color: Colors.black,
-                elevation: 7,
-                child: GestureDetector(
-                    onTap: () {
-                      String litres = orderController.text.trim();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Confirm(
-                                  litres: litres,
-                                  userid: this.widget.id,
-                                  contact_number:
-                                      phoneNumberController.text.trim(),
-                                )),
-                      );
-                    },
-                    child: Center(
-                      child: Text(
-                        'ORDER',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Montserrat'),
+      body:SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.fromLTRB(15, 110, 0, 0),
+                            child: Text(
+                              "Order",
+                              style:
+                              TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        ],
                       ),
-                    )),
+                    ),
+                    Container(
+                      child: TextField(
+                        controller: phoneNumberController,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            labelText: 'Phone Number',
+                            labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      child: TextField(
+                        controller: orderController,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            labelText: 'Litres',
+                            labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      height: 40,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(20),
+                        shadowColor: Colors.greenAccent,
+                        color: Colors.black,
+                        elevation: 7,
+                        child: GestureDetector(
+                            onTap: () {
+                              String litres = orderController.text.trim();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Confirm(
+                                      litres: litres,
+                                      userid: this.widget.id,
+                                      contact_number:
+                                      phoneNumberController.text.trim(),
+                                    )),
+                              );
+                            },
+                            child: Center(
+                              child: Text(
+                                'ORDER',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Montserrat'),
+                              ),
+                            )),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            )
-          ],
-        ),
-      ),
+            ],
+          )
+      )
     );
   }
 }

@@ -22,8 +22,8 @@ class Confirm extends StatefulWidget {
 }
 
 class _ConfirmState extends State<Confirm> {
-  String transport = '1500';
-  String unit_price = '2000';
+  // String transport = '1500';
+  String unit_price = '3000';
   String url = "https://api.emailjs.com/api/v1.0/email/send";
   final user = FirebaseAuth.instance.currentUser;
 
@@ -32,8 +32,7 @@ class _ConfirmState extends State<Confirm> {
   @override
   void initState() {
     super.initState();
-    total = int.parse(this.widget.litres) * int.parse(unit_price) +
-        int.parse(transport);
+    total = int.parse(this.widget.litres) * int.parse(unit_price);
   }
 
   Future sendEmail(String name, String email, String body) async {
@@ -167,31 +166,31 @@ class _ConfirmState extends State<Confirm> {
           SizedBox(
             height: 50,
           ),
-          Container(
-            padding: EdgeInsets.all(6),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Transport',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  transport,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
+          // Container(
+          //   padding: EdgeInsets.all(6),
+          //   child: Row(
+          //     children: <Widget>[
+          //       Text(
+          //         'Transport',
+          //         textAlign: TextAlign.center,
+          //         overflow: TextOverflow.ellipsis,
+          //         style: const TextStyle(fontWeight: FontWeight.bold),
+          //       ),
+          //       SizedBox(
+          //         width: 20,
+          //       ),
+          //       Text(
+          //         transport,
+          //         textAlign: TextAlign.center,
+          //         overflow: TextOverflow.ellipsis,
+          //         style: const TextStyle(fontWeight: FontWeight.bold),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 50,
+          // ),
           Container(
             padding: EdgeInsets.all(6),
             child: Row(
@@ -233,7 +232,6 @@ class _ConfirmState extends State<Confirm> {
                       "date": {getCurrentDate()},
                       "litres": this.widget.litres,
                       "unitprice": unit_price,
-                      "transport": transport,
                       "phone_number": this.widget.contact_number,
                       "amount": total
                     };
